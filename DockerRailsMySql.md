@@ -83,7 +83,7 @@ docker psでMySQLが動いているContainerを確認して、以下のコマン
 docker exec -it <'WebContainerID'> bash  
  ・rails c  
  　👉 Modelを見れる。  
-      例：Item.all　　　　　　　　　　　　　　　←検索  
+      例：Item.all　　　　　　　　　　　　　　　　　　←検索  
     　item = Item.create(name: "aaaa") 　　　　　←登録  
 ・rails dbconsole  
   👉 DBViewer  

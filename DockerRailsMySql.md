@@ -80,7 +80,7 @@ docker psでMySQLが動いているContainerを確認して、以下のコマン
 ```   
 ## WebAppContainerでもDBサーバが見れる。
 ```
-docker exec -it <WebContainerID> bash  
+docker exec -it <'WebContainerID'> bash  
  ・rails c  
  　👉 Modelを見れる。  
       例：Item.all　　　　　　　　　　　　　　　←検索  

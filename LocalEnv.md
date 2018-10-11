@@ -1,15 +1,29 @@
 ### rubyインストール
 　👉 https://qiita.com/takahiron/items/09bf1073b460c6fcd0fc
 ### ※ruby version切り替えが上手くできなかった。
+```
 　👉 https://qiita.com/opiyo_taku/items/3312a75d5916f6cd32b1  
     vi ~/.bash_profile  
     export PATH="~/.rbenv/shims:/usr/local/bin:$PATH"  
     eval "$(rbenv init -)"  
     source ~/.bash_profile  
+```
 ### ※ mySqlインストール
- 👉 brew install mySql
-### ※ mySQLのパスワード設定。
- 👉 mysql_secure_installation
+```
+👉 brew install mySql
+```
+### ※ mySqlパスワード設定
+```
+👉 mysql.server start
+👉 mysql_secure_installation  
+https://weblabo.oscasierra.net/mysql-57-init-setup/　参照
+    👉 上手くいけない場合、MYSQLにパスワードなしで入ってみてvalidate_password_policyを確認
+    　　mysql -uroot -p
+    　　SHOW VARIABLES LIKE 'validate_password%';
+    　　　validate_password_policy : LOW  
+    　　　validate_password_length : 8  
+    👉
+```
 ### ※ Node.jsとnpm インストールとアップデート
  👉 https://qiita.com/jaxx2104/items/2277cec77850f2d83c7a
 ### ※ yarn install  

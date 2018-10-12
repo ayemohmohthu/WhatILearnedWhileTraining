@@ -87,7 +87,7 @@ docker exec -it <'WebContainerID'> bash
     　item = Item.create(name: "aaaa") 　　　　　←登録  
 ・rails dbconsole  
   👉 DBViewer  
-   例：show databases;  
+   例：show databases;  SHOW COLUMNS FROM City;  
        use <'DB NAME'>    
   　　 select / update / delete / insertなどSQL queryを実行される。  
 ```

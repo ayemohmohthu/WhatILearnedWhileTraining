@@ -63,3 +63,49 @@ https://qiita.com/devdyaya/items/50d5527983d4c91ae6da
 <%= f.select カラム名, [["表示する文字”, "データベースに登録する値”]] %>
 <%= form.select :status, [['未着手', '0'],['作業中', '1'],['完了', '2']] %>
 ```
+#### routes.rbについて
+4.3 名前付きヘルパーをオーバーライドする  
+:asオプションを使用すると、名前付きルーティングヘルパーを上書きして異なる名前を使用できます。例:
+```
+resources :photos, as: 'images'
+
+resources :tasks なら photosとimagesのところにtasksを入れてみる。
+
+```
+上のルーティングでは、/photosで始まるブラウザからのパスを認識し、このリクエストをPhotosコントローラにルーティングしますが、ヘルパーの命名に:asオプションの値が使用されます。
+
+|HTTP 動詞	| パス	| コントローラ#アクション	| 名前付きヘルパー|
+|:----------|:-----|:---------------------|--------------|
+|GET	| /photos	| photos#index	| images_path |
+|GET	| /photos/new	| photos#new	| new_image_path |
+|POST	| /photos	| photos#create	| images_path |
+|GET	| /photos/:id	| photos#show	| image_path(:id) |
+|GET	| /photos/:id/edit	| photos#edit	| edit_image_path(:id) |
+|PATCH/PUT	| /photos/:id	| photos#update	| image_path(:id) |
+|DELETE	| /photos/:id	| photos#destroy	| image_path(:id) |
+
+#### Migrationについて
+https://ruby-rails.hatenadiary.com/entry/20140810/1407634200#migration-change-datatype
+
+#### scaffold削除
+rails destroy scaffold task
+
+#### DB検索方法
+##### allメソッドとは
+テーブルからすべてのレコードを取得する  
+* Task.all
+##### findメソッドとは
+各モデルのidを検索キーとしてデータを取得するメソッド  
+id以外の条件で検索不可  
+取得したいデータのidの値が、1、10と具体的に分かっている場合に使用する。  
+* Task.find(1)
+##### find_byメソッドとは
+各モデルをid以外の条件で検索するメソッド(idでも検索可能)  
+複数の検索条件を指定可能  
+返ってくる結果は、最初にヒットした1件のみ  
+id及びid以外の条件が分かっている場合、その条件に該当する最初のデータを取得したい場合に使用する。  
+* Task.find_by(status: 0)
+##### whereメソッド
+各モデルをid以外の条件で検索する場合  
+該当するデータ全てが返ってくる。  
+* Task.where(status: 0)

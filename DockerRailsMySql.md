@@ -91,3 +91,5 @@ docker exec -it <'WebContainerID'> bash
        use <'DB NAME'>    
   　　 select / update / delete / insertなどSQL queryを実行される。  
 ```
+
+## 新しいGemのインストール後には、docker-compose buildを実行してから、docker-compose upを実行するように！！

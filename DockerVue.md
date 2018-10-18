@@ -1,17 +1,31 @@
 ## Dockerfile
 ```
-※ Rubyは2.5.0以上で
+# Rubyは2.5.0以上で
 FROM ruby:2.5.1
-※ yarnインストール
+
+ENV LANG C.UTF-8
+# for MySQL
+RUN apt-get update -qq && apt-get install -y build-essential mysql-client
 RUN apt-get install -y curl apt-transport-https wget && \
     curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
     echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
     apt-get update && apt-get install -y yarn
-※ Node.jsインストール
+# nodejs環境の構築
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - && \
-　　 apt-get install nodejs
-※ Cannot find module node-sass対策
+    apt-get install nodejs
 RUN yarn add node-sass
+RUN gem install bundler
+
+WORKDIR /tmp
+ADD Gemfile Gemfile
+ADD Gemfile.lock Gemfile.lock
+RUN bundle install
+
+ENV APP_HOME /myTaskApp
+RUN mkdir -p $APP_HOME
+WORKDIR $APP_HOME
+ADD . $APP_HOME
+
 ```
 ## Gemfile
 ```
@@ -28,6 +42,14 @@ https://qiita.com/asapontenhou/items/507558aad52dc7dd2b32
 ④config/database.yml編集
 　　password: <%= ENV['MYSQL_ROOT_PASSWORD'] %>
 　　host: db
+追加：テストコードようRSpec+Guard導入
+　　Gemfileに
+　　group :development, :test do
+  　　gem 'rspec-rails'
+  　　gem 'guard-rspec', require: false
+  　　gem "factory_bot_rails"
+　　end
+　　を追加して、bundle installを実行
 ⑤rails db:create
 ⑥rails g controller home index
 ⑦config/routes.rb編集
@@ -63,11 +85,9 @@ https://qiita.com/asapontenhou/items/507558aad52dc7dd2b32
 15.docker-compose up
 ```
 
-##### Local環境で動いていたPjが表示される場合、
+#### dockerコンテナ上yarn updateしたいとき
 ```
-~ ❯❯❯ lsof -wni tcp:3000
-COMMAND  PID         USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
-ruby    4671 ayemohmohthu   10u  IPv4 0x4d493c2ee305c013      0t0  TCP 127.0.0.1:hbci (LISTEN)
-ruby    4671 ayemohmohthu   11u  IPv6 0x4d493c2ee0de18cb      0t0  TCP [::1]:hbci (LISTEN)
-~ ❯❯❯ kill -9 4671
+docker-compose run web yarn install
 ```
+
+docker-compose run --rm web bundle install

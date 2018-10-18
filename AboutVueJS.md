@@ -177,5 +177,11 @@ data: {
 	  height: '200px'
   }
 }
-
+```
+#### Vue component に<style>を使いたい場合
+html viewでjavascriptをimportするとき、stylesheetもimportする必要がある。
+```
+<%= javascript_pack_tag 'task_vue' %>
+#追加分
+<%= stylesheet_pack_tag 'task_vue' %>
 ```

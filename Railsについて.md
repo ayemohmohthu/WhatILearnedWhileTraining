@@ -19,6 +19,10 @@ V-view - 画面表示用
 rails generate scaffold モデル名 カラム名1:データ型1 カラム名2:データ型 2
 例：rails generate scaffold user name:string age:integer
 ```
+#### caffoldで作成したファイルを全削除
+```
+rails destroy scaffold "name"
+```
 #### modelをDBに反映
 ```
 rake db:migrate
@@ -109,3 +113,67 @@ id及びid以外の条件が分かっている場合、その条件に該当す�
 各モデルをid以外の条件で検索する場合  
 該当するデータ全てが返ってくる。  
 * Task.where(status: 0)
+
+## Testについて
+### Guardとは
+guard-rspecはspecファイルに変更があった際、自動でテストを実行します。Gruntで言うgrunt-contribe-watchのようなものですね。  
+
+Guard automates various tasks by running custom rules whenever file or directories are modified.  
+It's frequently used by software developers, web designers, writers and other specialists to avoid mundane, repetitive actions and commands such as "relaunching" tools after changing source files or configurations.
+
+####guardの導入
+Gemfileに、
+```
+group :development, :test do
+  gem 'guard-rspec', require: false
+end
+```
+を追記して、bundle installします。  
+次に、
+```
+bundle exec guard init
+```
+を実行し、Guardfileを生成します。
+
+### RSpec とは
+
+RSpec とは Ruby on Rails のテストフレームワークである。
+つまりは、テスト専用のプログラム言語です。
+RSpec は Gem パッケージとして提供されている。
+RSpec の公式サイトは[こちら](https://github.com/rspec/rspec-rails)。  
+##### Rails入門】RSpecを使ったテスト方法を初心者向けに基本から解説  
+https://www.sejuku.net/blog/47847#RSpec
+
+##### RSpec + Guard の導入の前に、RSpecのインストールが必要
+Gemfileに
+```
+group :development, :test do
+  gem 'rspec-rails'
+end
+```
+
+##### RSpec導入後、rake db:migrateにMysql2::Error: Table 'myvueapp_development.schema_migrations' doesn't existが発生したら
+```
+group :development, :test do
+  gem "factory_bot_rails"
+end
+```
+
+#### Test Code Example 参考
+https://ruby-rails.hatenadiary.com/entry/20141021/1413819783
+
+#### コントローラー書くべきテストケースは基本的に5項目です。
+1. 正常に動作しているか (http status)
+2. 正常にHTTPメソッドを呼び出せているか (render template)
+3. インスタンス変数が適切かどうか (assings)
+4. モデルの増減 (change by)
+5. リダイレクト (redirect)
+
+4,5はコントローラ内に存在しない場合もある。
+例えば、モデルの増減はDBにレコードがsave、update、destroyされた時に限る。
+
+
+#### describe/context/itの使い分け
+①describe : テスト対象が何か
+②context : 条件は何か (with or whenから始める)
+③it : アウトプットは何か

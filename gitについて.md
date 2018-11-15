@@ -53,3 +53,8 @@
   ▼ master,release,hotfixs,develop,featuresのbranchesを切ってから作業する。
 ##### github-Flow
   ▼ master,topicのbranches二つだけで作業をする。
+
+#### How do I commit case-sensitive only filename changes in Git?
+git mv -f OldFileNameCase newfilenamecase
+git commit -m "comment"
+git push origin [branch]

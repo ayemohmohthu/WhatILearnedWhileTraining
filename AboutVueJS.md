@@ -185,3 +185,34 @@ html viewでjavascriptをimportするとき、stylesheetもimportする必要が
 #追加分
 <%= stylesheet_pack_tag 'task_vue' %>
 ```
+#### Vuexとは
+Vuex は Vue.js アプリケーションのための 状態管理パターン + ライブラリです。
+```
+npm install vuex --save
+or
+yarn add vuex
+```
+モジュールシステムで利用される場合、 Vue.use() によって Vuex を明示的に導入する必要があります。
+```
+import Vue from 'vue'
+import Vuex from 'vuex'
+
+Vue.use(Vuex)
+```
+Vuex は Promise (プロミス) を必要とします。ブラウザで Promise が実装されていない(例 IE)場合は、es6-promise のようなポリフィルライブラリを使用できます。
+```
+npm install es6-promise --save
+or
+yarn add es6-promise
+```
+Vuex を使用する前に、コードのどこかに次の行を追加します。
+```
+import 'es6-promise/auto'
+```
+Vuexはいくつかの要素をアプリ自身に含んでいます。
+1.状態、これは私達のアプリを動かす信頼できる情報源(the source of truth)です。
+2.ビュー、これは状態のただの宣言的なマッピングです。
+3.アクション、これはビューからのユーザー入力に反応して、状態の変更を可能にする方法です。
+
+#### Map形式のデータ作成
+https://qiita.com/akicho8/items/1ca13fac3d93ff47d9ba
